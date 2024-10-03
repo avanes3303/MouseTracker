@@ -11,4 +11,31 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-rc.1.24451.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Views\Shared\**" />
+      <Compile Remove="Views\Index.cshtml.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Views\Shared\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Views\Shared\**" />
+      <Content Remove="Views\Index.cshtml" />
+      <Content Remove="Views\_ViewImports.cshtml" />
+      <Content Remove="Views\_ViewStart.cshtml" />
+      <Content Remove="Views\Mouse\Privacy.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Views\Shared\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    </ItemGroup>
+
 </Project>
