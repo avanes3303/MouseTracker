@@ -28,43 +28,32 @@
     </style>
     <script>
         let mouseCoordinates = [];
-        let lastCoordinates = [0, 0];
 
-        document.addEventListener('mousemove', function (event) {
-            lastCoordinates = [event.clientX, event.clientY, Date.now()];
+        document.addEventListener('mousemove', event => {
+            mouseCoordinates.push([event.clientX, event.clientY, Date.now()]);
         });
 
-        setInterval(function () {
-            if (lastCoordinates) {
-                mouseCoordinates.push(lastCoordinates);
+        setInterval(() => {
+            if (mouseCoordinates.length) {
+                sendData();
+                mouseCoordinates = [];
             }
         }, 1000);
 
         function sendData() {
-            const dataToSend = mouseCoordinates.map(coord => ({
-                XCoordinate: coord[0],
-                YCoordinate: coord[1],
-                Timestamp: coord[2]
-            }));
-
             fetch('/mouse/savecoordinates', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(dataToSend)
+                body: JSON.stringify(mouseCoordinates.map(coord => ({
+                    XCoordinate: coord[0],
+                    YCoordinate: coord[1],
+                    Timestamp: coord[2]
+                })))
             })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Данные успешно отправлены!');
-                        mouseCoordinates = [];
-                    } else {
-                        alert('Ошибка при отправке данных');
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                });
+            .then(response => response.ok ? alert('Данные успешно отправлены!') : alert('Ошибка при отправке данных'))
+            .catch(error => console.error('Ошибка:', error));
         }
     </script>
 </head>
